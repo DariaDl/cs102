@@ -3,72 +3,49 @@ import typing as tp
 
 
 def is_prime(n: int) -> bool:
-    """
-    Tests to see if a number is prime.
-
-    >>> is_prime(2)
-    True
-    >>> is_prime(11)
-    True
-    >>> is_prime(8)
-    False
-    """
-    # PUT YOUR CODE HERE
-    pass
-
+    d = 2
+    while n % d != 0:
+        d = d + 1
+    return d == n
 
 def gcd(a: int, b: int) -> int:
-    """
-    Euclid's algorithm for determining the greatest common divisor.
 
-    >>> gcd(12, 15)
-    3
-    >>> gcd(3, 7)
-    1
-    """
-    # PUT YOUR CODE HERE
-    pass
-
+    while a != b:
+        if a > b:
+            a = a - b
+        else:
+            b = b - a
+    return a
 
 def multiplicative_inverse(e: int, phi: int) -> int:
-    """
-    Euclid's extended algorithm for finding the multiplicative
-    inverse of two numbers.
-
-    >>> multiplicative_inverse(7, 40)
-    23
-    """
-    # PUT YOUR CODE HERE
-    pass
+    i = 1
+    while True:
+        if ((i * phi) + 1) % e == 0:
+            break
+        i = i + 1
+    final = int(((i * phi) + 1) / e)
+    return final
 
 
-def generate_keypair(p: int, q: int) -> tp.Tuple[tp.Tuple[int, int], tp.Tuple[int, int]]:
+def generate_keypair(p: int, q: int) -> ((int, int), (int, int)):
     if not (is_prime(p) and is_prime(q)):
-        raise ValueError("Both numbers must be prime.")
+        raise ValueError('Both numbers must be prime.')
     elif p == q:
-        raise ValueError("p and q cannot be equal")
-
-    # n = pq
-    # PUT YOUR CODE HERE
-
-    # phi = (p-1)(q-1)
-    # PUT YOUR CODE HERE
-
-    # Choose an integer e such that e and phi(n) are coprime
+        raise ValueError('p and q cannot be equal')
+    n = p * q
+    phi = (p - 1) * (q - 1)
     e = random.randrange(1, phi)
 
-    # Use Euclid's Algorithm to verify that e and phi(n) are coprime
     g = gcd(e, phi)
     while g != 1:
         e = random.randrange(1, phi)
         g = gcd(e, phi)
-
-    # Use Extended Euclid's Algorithm to generate the private key
     d = multiplicative_inverse(e, phi)
 
-    # Return public and private keypair
-    # Public key is (e, n) and private key is (d, n)
     return ((e, n), (d, n))
+
+
+
 
 
 def encrypt(pk: tp.Tuple[int, int], plaintext: str) -> tp.List[int]:

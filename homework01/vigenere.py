@@ -1,30 +1,34 @@
 def encrypt_vigenere(plaintext: str, keyword: str) -> str:
-    """
-    Encrypts plaintext using a Vigenere cipher.
-
-    >>> encrypt_vigenere("PYTHON", "A")
-    'PYTHON'
-    >>> encrypt_vigenere("python", "a")
-    'python'
-    >>> encrypt_vigenere("ATTACKATDAWN", "LEMON")
-    'LXFOPVEFRNHR'
-    """
     ciphertext = ""
-    # PUT YOUR CODE HERE
+    for i, letter in enumerate(plaintext):
+        key_let = keyword[i % len(keyword)]
+        if "A" <= key_let <= "Z":
+            shift = ord(key_let) - ord('A')
+        else:
+            shift = ord(key_let) - ord('a')
+
+        if "A" <= letter <= "Z":
+            ciphertext += chr(ord("A") + (ord(letter) - ord("A") + shift) % 26)
+        else:
+            ciphertext += chr(ord("a") + (ord(letter) - ord("a") + shift) % 26)
+
     return ciphertext
 
-
+print(encrypt_vigenere("introduction to python", "lsci"))
 def decrypt_vigenere(ciphertext: str, keyword: str) -> str:
-    """
-    Decrypts a ciphertext using a Vigenere cipher.
+     plaintext = ""
+     for i, letter in enumerate(ciphertext):
+        key_let = keyword[i % len(keyword)]
+        if 'A' <= key_let <= 'Z':
+            shift = ord(key_let) - ord('A')
+        else:
+            shift = ord(key_let) - ord('a')
 
-    >>> decrypt_vigenere("PYTHON", "A")
-    'PYTHON'
-    >>> decrypt_vigenere("python", "a")
-    'python'
-    >>> decrypt_vigenere("LXFOPVEFRNHR", "LEMON")
-    'ATTACKATDAWN'
-    """
-    plaintext = ""
-    # PUT YOUR CODE HERE
-    return plaintext
+        if 'A' <= letter <= 'Z':
+            plaintext += chr(ord('A') + (26 + ord(letter) - ord('A') - shift) % 26)
+        else:
+            plaintext += chr(ord("a") + (26 + ord(letter) - ord("a") - shift) % 26)
+
+     return plaintext
+
+

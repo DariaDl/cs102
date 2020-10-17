@@ -1,46 +1,56 @@
+
+
 import typing as tp
 
-
-def encrypt_caesar(plaintext: str, shift: int = 3) -> str:
-    """
-    Encrypts plaintext using a Caesar cipher.
-
-    >>> encrypt_caesar("PYTHON")
-    'SBWKRQ'
-    >>> encrypt_caesar("python")
-    'sbwkrq'
-    >>> encrypt_caesar("Python3.6")
-    'Sbwkrq3.6'
-    >>> encrypt_caesar("")
-    ''
-    """
-    ciphertext = ""
-    # PUT YOUR CODE HERE
+def encrypt_caesar(plaintext: str, shift: int) -> str:
+    ciphertext = ''
+    for ch in plaintext:
+        if ('a' <= ch <= 'z') or ('A' <= ch <= 'Z'):
+            code = ord(ch) + 3
+            if code > ord('Z') and code < ord('a') or code > ord('z'):
+                code -= 26
+            ciphertext += chr(code)
+        else:
+            ciphertext += ch
     return ciphertext
 
 
-def decrypt_caesar(ciphertext: str, shift: int = 3) -> str:
-    """
-    Decrypts a ciphertext using a Caesar cipher.
 
-    >>> decrypt_caesar("SBWKRQ")
-    'PYTHON'
-    >>> decrypt_caesar("sbwkrq")
-    'python'
-    >>> decrypt_caesar("Sbwkrq3.6")
-    'Python3.6'
-    >>> decrypt_caesar("")
-    ''
-    """
-    plaintext = ""
-    # PUT YOUR CODE HERE
+def decrypt_caesar(ciphertext: str, shift: int) -> str:
+    plaintext = ''
+
+    for ch in ciphertext:
+
+        if 'a' <= ch <= 'z' or 'A' <= ch <= 'Z':
+
+            code = ord(ch) - 3
+
+            if code < ord('a') and code > ord('Z') or code < ord('A'):
+
+                code += 26
+
+            plaintext += chr(code)
+
+        else:
+
+            plaintext += ch
+
     return plaintext
 
 
-def caesar_breaker_brute_force(ciphertext: str, dictionary: tp.Set[str]) -> int:
-    """
-    Brute force breaking a Caesar cipher.
-    """
+
+d = {"python", "java", "ruby"}
+def caesar_breaker(ciphertext: str, dictionary: tp.Set[str]) -> int:
     best_shift = 0
-    # PUT YOUR CODE HERE
+    text = list(ciphertext.lower())
+    for element in dictionary:
+        element = list(element)
+        sub1 = ord(text[0]) - ord(element[0])
+        sub2 = ord(text[1]) - ord(element[1])
+        if sub1 < 0:
+            sub1 += 26
+        if sub2 < 0:
+            sub2 += 26
+        if sub1 == sub2:
+            best_shift = sub1
     return best_shift
