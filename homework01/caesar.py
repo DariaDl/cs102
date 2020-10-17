@@ -53,4 +53,5 @@ def caesar_breaker(ciphertext: str, dictionary: tp.Set[str]) -> int:
             sub2 += 26
         if sub1 == sub2:
             best_shift = sub1
+
     return best_shift

@@ -24,6 +24,7 @@ def multiplicative_inverse(e: int, phi: int) -> int:
             break
         i = i + 1
     final = int(((i * phi) + 1) / e)
+
     return final
 
 
